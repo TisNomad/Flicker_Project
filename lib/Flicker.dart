@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:math';

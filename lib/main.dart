@@ -82,6 +82,7 @@ class _MyCanvasState extends State<MyCanvas> {
     Wakelock.disable();
   }
 
+  //Toggles animation of the flicker objects
   void toggleAnim() {
     if (isAnimating) {
       setState(() {
@@ -135,6 +136,10 @@ class _MyCanvasState extends State<MyCanvas> {
   }
 }
 
+
+
+
+//Custom Painter class for rendering on the canvas
 class MyPainter extends CustomPainter {
   //List<Flicker> flickerList = [];
   var list = [];

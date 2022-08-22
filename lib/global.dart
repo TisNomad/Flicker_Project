@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:hello_world/Flicker.dart';
+import 'package:hello_world/flicker.dart';
 
 List<Flicker> flickerList = [];
 

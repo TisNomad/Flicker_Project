@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Flicker.dart';
+import 'flicker.dart';
 
 class GlobalData extends ChangeNotifier {
   Color backGroundColor = Colors.black87;

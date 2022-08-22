@@ -12,7 +12,7 @@ class FlickerTimer {
 
   FlickerTimer({this.id = -1});
 
-  bool checkTimer(int id) {
+  bool checkTimerId(int id) {
     if (this.id == id) {
       return true;
     } else {
@@ -66,7 +66,7 @@ class Flicker implements Drawable {
   void draw() {}
 
   void changeColor({required Color secondaryColor}) {
-    if(this.isFlickering){
+    if (this.isFlickering) {
       if (color == colorTemp) {
         color = secondaryColor;
       } else {
@@ -85,10 +85,9 @@ class Flicker implements Drawable {
   }
 
   void toggleFlicker({required Color secondaryColor}) {
-    if(this.isFlickering){
+    if (this.isFlickering) {
       this.isFlickering = false;
-    }
-    else{
+    } else {
       this.isFlickering = true;
     }
   }

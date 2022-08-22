@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'dart:ffi';
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -50,6 +51,7 @@ class MyCanvas extends StatefulWidget {
 class _MyCanvasState extends State<MyCanvas> {
   bool isAnimating = true;
   var globalFlickerList = [];
+  late Timer timer;
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +62,11 @@ class _MyCanvasState extends State<MyCanvas> {
     Color backGroundColor = Provider.of<GlobalData>(context).backGroundColor;
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
-        toggleAnim();
-        globalFlickerList.add(Flicker(
-            Position(details.localPosition.dx, details.localPosition.dy),
-            30,
-            40,
-            color: Color.fromARGB(255, Random().nextInt(200) + 55,
-                Random().nextInt(200) + 55, Random().nextInt(200) + 55)));
+        timer = Timer.periodic(Duration(seconds: 2), (timer) {
+          for (Flicker element in globalFlickerList) {
+            element.hz++;
+          }
+        });
       },
       child: Container(
         color: backGroundColor,
@@ -137,9 +137,6 @@ class _MyCanvasState extends State<MyCanvas> {
     isAnimating = true;
   }
 }
-
-
-
 
 //Custom Painter class for rendering on the canvas
 class MyPainter extends CustomPainter {

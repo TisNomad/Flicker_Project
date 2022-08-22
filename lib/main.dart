@@ -16,7 +16,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(Provider<GlobalData>(
+  runApp(ChangeNotifierProvider<GlobalData>(
     create: (BuildContext context) => GlobalData(),
     child: const MyApp(),
   ));
@@ -48,24 +48,21 @@ class MyCanvas extends StatefulWidget {
 }
 
 class _MyCanvasState extends State<MyCanvas> {
-  bool isAnimating = true;
+  bool isAnimating = false;
   var globalFlickerList = [];
-  late Timer timer;
+  Timer? timer;
 
   @override
   Widget build(BuildContext context) {
-    //print("build() called");
+    final myGlobal = context.watch<GlobalData>();
 
-    //Provider.of<GlobalData>(context).initData();
+    globalFlickerList = myGlobal.flickerList;
 
     Color backGroundColor = Provider.of<GlobalData>(context).backGroundColor;
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
-        timer = Timer.periodic(Duration(seconds: 2), (timer) {
-          for (Flicker element in globalFlickerList) {
-            element.hz++;
-          }
-        });
+        Provider.of<GlobalData>(context)
+            .changeColor(secondaryColor: backGroundColor);
       },
       child: Container(
         color: backGroundColor,
@@ -84,56 +81,12 @@ class _MyCanvasState extends State<MyCanvas> {
   }
 
   //Toggles animation of the flicker objects
-  void toggleAnim() {
-    if (isAnimating) {
-      setState(() {
-        for (var element in globalFlickerList) {
-          element.stopFlicker();
-        }
-      });
-      print("Toggled to not animate");
-      isAnimating = false;
-    }
-    // Toggle on animating
-    else {
-      setState(() {
-        for (int i = 0; i < globalFlickerList.length; i++) {
-          globalFlickerList[i].startFlicker(
-              secondaryColor: Provider.of<GlobalData>(context, listen: false)
-                  .backGroundColor);
-        }
-      });
-      print("Toggled to animate");
-      isAnimating = true;
-    }
-  }
+  void toggleAnim() {}
 
   @override
   void initState() {
     super.initState();
     print("initState() called from MyCanvas");
-    global.initData();
-    globalFlickerList = global.flickerList;
-    print("List size: ${globalFlickerList.length}");
-
-    /*
-    for(int i = 0; i < 5; i++){
-      flickerList.add(Flicker.generateFlicker(color: Colors.white));
-
-    }
-
-     */
-
-    for (int i = 0; i < globalFlickerList.length; i++) {
-      globalFlickerList[i].flickerTimer.timer = Timer.periodic(
-          Duration(milliseconds: 1000 ~/ globalFlickerList[i].hz), (timer) {
-        setState(() {
-          globalFlickerList[i].changeColor(secondaryColor: Colors.black87);
-        });
-      });
-    }
-
-    isAnimating = true;
   }
 }
 

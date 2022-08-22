@@ -9,8 +9,7 @@ import 'Drawable.dart';
 import 'Flicker.dart';
 import 'package:wakelock/wakelock.dart';
 import 'global_data.dart';
-import 'global.dart' as global;
-import 'myMath.dart' as my_math;
+//import 'myMath.dart' as my_math;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +54,7 @@ class _MyCanvasState extends State<MyCanvas> {
   @override
   Widget build(BuildContext context) {
     final myGlobal = context.watch<GlobalData>();
-    Color backGroundColor = Provider.of<GlobalData>(context).backGroundColor;
+    Color backGroundColor = myGlobal.backGroundColor;
 
     return GestureDetector(
       onTapDown: (TapDownDetails details) {

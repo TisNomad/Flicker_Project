@@ -96,7 +96,6 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    //Draw list of flickers if list has elements of flicker
     //Generic paint operation for any object that is Drawable
     if (list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {

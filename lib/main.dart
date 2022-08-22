@@ -55,19 +55,17 @@ class _MyCanvasState extends State<MyCanvas> {
   @override
   Widget build(BuildContext context) {
     final myGlobal = context.watch<GlobalData>();
-
-    globalFlickerList = myGlobal.flickerList;
-
     Color backGroundColor = Provider.of<GlobalData>(context).backGroundColor;
+
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
-        Provider.of<GlobalData>(context)
+        Provider.of<GlobalData>(context, listen: false)
             .changeColor(secondaryColor: backGroundColor);
       },
       child: Container(
         color: backGroundColor,
         child: CustomPaint(
-          painter: MyPainter.acceptList(globalFlickerList),
+          painter: MyPainter.acceptList(myGlobal.flickerList),
           child: Container(),
         ),
       ),

@@ -76,19 +76,29 @@ class Flicker implements Drawable {
   }
 
   void startFlicker({required Color secondaryColor}) {
-    this.isFlickering = true;
-    this.secondaryColor = secondaryColor;
+    if (isFlickering == false) {
+      this.isFlickering = true;
+      this.secondaryColor = secondaryColor;
+      this.flickerTimer.timer =
+          Timer.periodic(Duration(milliseconds: 1000 ~/ this.hz), (timer) {
+        changeColor(secondaryColor: secondaryColor);
+      });
+    }
   }
 
   void stopFlicker() {
-    this.isFlickering = false;
+    if (isFlickering) {
+      this.isFlickering = false;
+      this.flickerTimer.timer?.cancel();
+      this.flickerTimer.timer = null;
+    }
   }
 
   void toggleFlicker({required Color secondaryColor}) {
     if (this.isFlickering) {
-      this.isFlickering = false;
+      stopFlicker();
     } else {
-      this.isFlickering = true;
+      startFlicker(secondaryColor: secondaryColor);
     }
   }
 

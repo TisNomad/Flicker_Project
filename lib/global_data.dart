@@ -6,7 +6,7 @@ class GlobalData extends ChangeNotifier {
   List<Flicker> flickerList = [];
 
   GlobalData() {
-    print("GlobalData constructor called.");
+    initData();
   }
 
   void initData() {
@@ -14,6 +14,7 @@ class GlobalData extends ChangeNotifier {
     print("İnitData() called from ChangeNotifier GlobalData.");
     for (int i = 0; i < 1; i++) {
       flickerList.add(Flicker(Position(200, 250), 30, 5, color: Colors.white));
+      print(flickerList.length);
     }
     print(
         "ChangeNotifier GlobalData flicker list length: ${flickerList.length}");

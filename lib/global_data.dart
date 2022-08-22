@@ -18,6 +18,9 @@ class GlobalData extends ChangeNotifier {
     }
     print(
         "ChangeNotifier GlobalData flicker list length: ${flickerList.length}");
+    for (Flicker element in flickerList) {
+      element.startFlicker(secondaryColor: backGroundColor);
+    }
   }
 
   void changeColor({required Color secondaryColor}) {

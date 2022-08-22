@@ -63,6 +63,8 @@ class Flicker implements Drawable {
   }
 
   @override
+  @Deprecated("Use drawPaint() instead for use in CustomPainter"
+      " with details of canvas context, size and position")
   void draw() {}
 
   void changeColor({required Color secondaryColor}) {

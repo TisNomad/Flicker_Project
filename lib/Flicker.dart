@@ -39,13 +39,9 @@ class Flicker implements Drawable {
   late FlickerTimer flickerTimer;
   bool isFlickering = true;
 
-  Flicker(Position pos, int size, int hz, {Color color = Colors.black}) {
+  Flicker(this.pos, this.size, this.hz, {this.color = Colors.black}) {
     this.id = Flicker.idGen;
     Flicker.idGen++;
-    this.pos = pos;
-    this.size = size;
-    this.hz = hz;
-    this.color = color;
     this.colorTemp = color;
     flickerTimer = FlickerTimer(id: this.id);
   }

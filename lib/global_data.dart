@@ -41,6 +41,7 @@ class GlobalData extends ChangeNotifier {
     }
   }
 
+  // Used to start flickering of a Flicker object ---------------------
   void startFlickerOf(Flicker f) {
     f.isFlickering = true;
     f.flickerTimer.timer =
@@ -58,6 +59,7 @@ class GlobalData extends ChangeNotifier {
     }
   }
 
+  // Used to stop flickering of a Flicker object -----------------------
   void stopFlickerOf(Flicker f) {
     f.isFlickering = false;
     f.flickerTimer.timer?.cancel();
@@ -65,6 +67,7 @@ class GlobalData extends ChangeNotifier {
     print("Flicker id:${f.id} stopped flickering.");
   }
 
+  //Toggles between flickering and non-flickering states ---------------
   void toggleFlicker({required Color secondaryColor}) {
     print("toggleFlicker() method called from global_data");
     if (flickerList.isEmpty) return;

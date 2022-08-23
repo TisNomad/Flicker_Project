@@ -10,7 +10,9 @@ class FlickerTimer {
   late Timer? timer;
   late int id;
 
-  FlickerTimer({this.id = -1});
+  FlickerTimer({this.id = -1}) {
+    timer = null;
+  }
 
   bool checkTimerId(int id) {
     if (this.id == id) {
@@ -39,7 +41,7 @@ class Flicker implements Drawable {
   late Color color = Colors.black;
   late Color secondaryColor;
   late FlickerTimer flickerTimer;
-  bool isFlickering = true;
+  bool isFlickering = false;
 
   Flicker(this.pos, this.size, this.hz, {this.color = Colors.black}) {
     this.id = Flicker.idGen;

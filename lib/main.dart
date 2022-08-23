@@ -33,14 +33,20 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           title: const Text("Flicker Project"),
         ),
-        body: MyCanvas(),
+        body: MyCanvas(context),
       ),
     );
   }
 }
 
 class MyCanvas extends StatefulWidget {
-  const MyCanvas({Key? key}) : super(key: key);
+  MyCanvas(BuildContext context, {Key? key}) : super(key: key) {
+    var globalFlickerList = Provider.of<GlobalData>(context).flickerList;
+    for (Flicker element in globalFlickerList) {
+      element.startFlicker(
+          secondaryColor: Provider.of<GlobalData>(context).backGroundColor);
+    }
+  }
 
   @override
   State<MyCanvas> createState() => _MyCanvasState();
@@ -53,6 +59,7 @@ class _MyCanvasState extends State<MyCanvas> {
 
   @override
   Widget build(BuildContext context) {
+    print("MyCanvas build method called.");
     final globalFlickerList = context.watch<GlobalData>().flickerList;
     Color backGroundColor =
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
@@ -79,7 +86,12 @@ class _MyCanvasState extends State<MyCanvas> {
   }
 
   //Toggles animation of the flicker objects
-  void toggleAnim() {}
+  void toggleAnim() {
+    for (Flicker element in globalFlickerList) {
+      element.toggleFlicker(
+          secondaryColor: Provider.of<GlobalData>(context).backGroundColor);
+    }
+  }
 
   @override
   void initState() {

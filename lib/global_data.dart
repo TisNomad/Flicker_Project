@@ -28,51 +28,51 @@ class GlobalData extends ChangeNotifier {
   }
 
   void startFlicker({required Color secondaryColor}) {
-    if (flickerList.isEmpty) return;
+    if (flickerList.isEmpty) {
+      print("flickerList is empty");
+      return;
+    }
     for (Flicker f in flickerList) {
       if (f.isFlickering) {
         print("Flicker id:${f.id} is already flickering.");
       } else {
-        _startFlickerOf(f);
+        startFlickerOf(f);
       }
     }
   }
 
-  void _startFlickerOf(Flicker f) {
+  void startFlickerOf(Flicker f) {
     f.isFlickering = true;
-    if (f.flickerTimer.timer == null) {
-      f.flickerTimer.timer =
-          Timer.periodic(Duration(milliseconds: 1000 ~/ f.hz), (timer) {
-        f.changeColor(secondaryColor: backGroundColor);
-        notifyListeners();
-      });
-    } else {
-      print("Flickers are already started.");
-    }
+    f.flickerTimer.timer =
+        Timer.periodic(Duration(milliseconds: 1000 ~/ f.hz), (timer) {
+      f.changeColor(secondaryColor: backGroundColor);
+      notifyListeners();
+    });
+    print("Flicker id:${f.id} started to flicker.");
   }
 
   void stopFlicker() {
     if (flickerList.isEmpty) return;
     for (Flicker f in flickerList) {
-      _stopFlickerOf(f);
+      stopFlickerOf(f);
     }
   }
 
-  void _stopFlickerOf(Flicker f) {
+  void stopFlickerOf(Flicker f) {
     f.isFlickering = false;
     f.flickerTimer.timer?.cancel();
     f.flickerTimer.timer = null;
+    print("Flicker id:${f.id} stopped flickering.");
   }
 
   void toggleFlicker({required Color secondaryColor}) {
     print("toggleFlicker() method called from global_data");
     if (flickerList.isEmpty) return;
     for (Flicker f in flickerList) {
-      if (f.isFlickering) {
-        f.draw();
-        _stopFlickerOf(f);
+      if (f.isFlickering == true) {
+        stopFlickerOf(f);
       } else {
-        _startFlickerOf(f);
+        startFlickerOf(f);
       }
     }
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'flicker.dart';
 import 'dart:async';
@@ -10,6 +11,8 @@ class GlobalData extends ChangeNotifier {
     initData();
   }
 
+  @Summary("Initializes the data to be used in application.\n"
+      "Used once when first program starts.")
   void initData() {
     // initialize with 5 items in list.
     print("İnitData() called from ChangeNotifier GlobalData.");
@@ -25,25 +28,52 @@ class GlobalData extends ChangeNotifier {
   }
 
   void startFlicker({required Color secondaryColor}) {
-    for (Flicker element in flickerList) {
-      var f = element;
-      f.isFlickering = true;
-      f.flickerTimer.timer?.cancel();
-      f.flickerTimer.timer = null;
+    if (flickerList.isEmpty) return;
+    for (Flicker f in flickerList) {
+      if (f.isFlickering) {
+        print("Flicker id:${f.id} is already flickering.");
+      } else {
+        _startFlickerOf(f);
+      }
+    }
+  }
+
+  void _startFlickerOf(Flicker f) {
+    f.isFlickering = true;
+    if (f.flickerTimer.timer == null) {
       f.flickerTimer.timer =
           Timer.periodic(Duration(milliseconds: 1000 ~/ f.hz), (timer) {
-        f.changeColor(secondaryColor: secondaryColor);
+        f.changeColor(secondaryColor: backGroundColor);
         notifyListeners();
       });
+    } else {
+      print("Flickers are already started.");
     }
   }
 
   void stopFlicker() {
-    for (Flicker element in flickerList) {
-      var f = element;
-      f.isFlickering = false;
-      f.flickerTimer.timer?.cancel();
-      f.flickerTimer.timer = null;
+    if (flickerList.isEmpty) return;
+    for (Flicker f in flickerList) {
+      _stopFlickerOf(f);
+    }
+  }
+
+  void _stopFlickerOf(Flicker f) {
+    f.isFlickering = false;
+    f.flickerTimer.timer?.cancel();
+    f.flickerTimer.timer = null;
+  }
+
+  void toggleFlicker({required Color secondaryColor}) {
+    print("toggleFlicker() method called from global_data");
+    if (flickerList.isEmpty) return;
+    for (Flicker f in flickerList) {
+      if (f.isFlickering) {
+        f.draw();
+        _stopFlickerOf(f);
+      } else {
+        _startFlickerOf(f);
+      }
     }
   }
 

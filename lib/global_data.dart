@@ -47,11 +47,13 @@ class GlobalData extends ChangeNotifier {
   // Used to start flickering of a Flicker object ---------------------
   void startFlickerOf(Flicker f) {
     f.isFlickering = true;
+
     f.flickerTimer.timer =
         Timer.periodic(Duration(milliseconds: 1000 ~/ f.hz), (timer) {
       f.changeColor(secondaryColor: backGroundColor);
       notifyListeners();
     });
+
     print("Flicker id:${f.id} started to flicker.");
   }
 

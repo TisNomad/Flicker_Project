@@ -61,7 +61,6 @@ class _MyCanvasState extends State<MyCanvas> {
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
         toggleAnim();
-        print("");
       },
       child: Container(
         color: backGroundColor,
@@ -103,11 +102,11 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     //Generic paint operation for any object that is Drawable
-    if (list.isNotEmpty) {
-      for (int i = 0; i < list.length; i++) {
-        if (list[i] is Drawable) {
-          list[i].drawPaint(canvas, size);
-        }
+    if (list.isEmpty) return;
+
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] is Drawable) {
+        list[i].drawPaint(canvas, size);
       }
     }
   }

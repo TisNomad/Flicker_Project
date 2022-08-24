@@ -7,6 +7,7 @@ class GlobalData extends ChangeNotifier {
   Color backGroundColor = Colors.black87;
   List<Flicker> flickerList = [];
 
+  //When provider is built, initialize data. Called immediately when app starts.
   GlobalData() {
     initData();
   }
@@ -50,6 +51,16 @@ class GlobalData extends ChangeNotifier {
       notifyListeners();
     });
     print("Flicker id:${f.id} started to flicker.");
+  }
+
+  //start flicker of a Flicker object with its own method and callback
+  void startWithNotify(Flicker f, {required Color secondaryColor}) {
+    f.startWithCallback(
+      secondaryColor: secondaryColor,
+      callback: () {
+        notifyListeners();
+      },
+    );
   }
 
   void stopFlicker() {

@@ -50,6 +50,8 @@ class Flicker implements Drawable {
     flickerTimer = FlickerTimer(id: this.id);
   }
 
+  //------------------------------------------------------------------------
+
   static Flicker generateRandomFlicker({required Color color}) {
     Position c =
         Position(Random().nextInt(250) + 50, Random().nextInt(600) + 100);
@@ -64,10 +66,7 @@ class Flicker implements Drawable {
     return f;
   }
 
-  @override
-  @Deprecated("Use drawPaint() instead for use in CustomPainter"
-      " with details of canvas context, size and position")
-  void draw() {}
+  //---------------------------------------------------------------------
 
   void changeColor({required Color secondaryColor}) {
     if (this.isFlickering) {
@@ -80,14 +79,27 @@ class Flicker implements Drawable {
   }
 
   void startFlicker({required Color secondaryColor}) {
-    if (isFlickering == false) {
-      this.isFlickering = true;
-      this.secondaryColor = secondaryColor;
-      this.flickerTimer.timer =
-          Timer.periodic(Duration(milliseconds: 1000 ~/ this.hz), (timer) {
-        changeColor(secondaryColor: secondaryColor);
-      });
-    }
+    if (isFlickering) return;
+    this.isFlickering = true;
+    this.secondaryColor = secondaryColor;
+    this.flickerTimer.timer =
+        Timer.periodic(Duration(milliseconds: 1000 ~/ this.hz), (timer) {
+      changeColor(secondaryColor: secondaryColor);
+    });
+  }
+
+  void startWithCallback({
+    required Color secondaryColor,
+    required Function callback,
+  }) {
+    if (this.isFlickering) return;
+    this.isFlickering = true;
+    this.secondaryColor = secondaryColor;
+    this.flickerTimer.timer =
+        Timer.periodic(Duration(milliseconds: 1000 ~/ this.hz), (timer) {
+      changeColor(secondaryColor: secondaryColor);
+      callback();
+    });
   }
 
   void stopFlicker() {
@@ -105,6 +117,11 @@ class Flicker implements Drawable {
       startFlicker(secondaryColor: secondaryColor);
     }
   }
+
+  @override
+  @Deprecated("Use drawPaint() instead for use in CustomPainter"
+      " with details of canvas context, size and position")
+  void draw() {}
 
   @override
   void drawPaint(Canvas canvas, size) {

@@ -59,24 +59,17 @@ class _MyCanvasState extends State<MyCanvas> {
     Color backGroundColor =
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
 
-    return Column(
-      children: [
-        Expanded(
-          flex: 10,
-          child: GestureDetector(
-            onTapDown: (TapDownDetails details) {
-              toggleAnim();
-            },
-            child: Container(
-              color: backGroundColor,
-              child: CustomPaint(
-                painter: MyPainter.acceptList(globalFlickerList),
-                child: Container(),
-              ),
-            ),
-          ),
+    return GestureDetector(
+      onTapDown: (TapDownDetails details) {
+        toggleAnim();
+      },
+      child: Container(
+        color: backGroundColor,
+        child: CustomPaint(
+          painter: MyPainter.acceptList(globalFlickerList),
+          child: Container(),
         ),
-      ],
+      ),
     );
   }
 

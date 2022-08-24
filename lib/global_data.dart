@@ -88,7 +88,7 @@ class GlobalData extends ChangeNotifier {
     print("toggleFlicker() method called from global_data");
     if (flickerList.isEmpty) return;
     for (Flicker f in flickerList) {
-      if (f.isFlickering == true) {
+      if (f.isFlickering) {
         stopFlickerOf(f);
       } else {
         startFlickerOf(f);

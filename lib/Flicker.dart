@@ -1,9 +1,8 @@
-// ignore_for_file: unnecessary_this
+// ignore_for_file: unnecessary_this, avoid_print
 
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import 'drawable.dart';
 
 class FlickerTimer {
@@ -30,6 +29,7 @@ class Position {
   Position(this.x, this.y);
 }
 
+//     CLASS HERE   -----------------------------------------------------------
 class Flicker implements Drawable {
   static int idGen = 1;
 
@@ -119,8 +119,8 @@ class Flicker implements Drawable {
   }
 
   @override
-  @Deprecated("Use drawPaint() instead for use in CustomPainter"
-      " with details of canvas context, size and position")
+  @Deprecated("Use drawPaint() instead, for use in CustomPainter"
+      " with details of canvas context, size properties")
   void draw() {}
 
   @override

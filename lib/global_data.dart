@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this, avoid_print
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'flicker.dart';
@@ -54,6 +56,7 @@ class GlobalData extends ChangeNotifier {
   }
 
   //start flicker of a Flicker object with its own method and callback
+  @Deprecated("Does not work but the idea should linger for future development")
   void startWithNotify(Flicker f, {required Color secondaryColor}) {
     f.startWithCallback(
       secondaryColor: secondaryColor,

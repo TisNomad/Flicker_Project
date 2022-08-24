@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 // A Comment
+
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -58,17 +59,24 @@ class _MyCanvasState extends State<MyCanvas> {
     Color backGroundColor =
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
 
-    return GestureDetector(
-      onTapDown: (TapDownDetails details) {
-        toggleAnim();
-      },
-      child: Container(
-        color: backGroundColor,
-        child: CustomPaint(
-          painter: MyPainter.acceptList(globalFlickerList),
-          child: Container(),
+    return Column(
+      children: [
+        Expanded(
+          flex: 10,
+          child: GestureDetector(
+            onTapDown: (TapDownDetails details) {
+              toggleAnim();
+            },
+            child: Container(
+              color: backGroundColor,
+              child: CustomPaint(
+                painter: MyPainter.acceptList(globalFlickerList),
+                child: Container(),
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 

@@ -37,7 +37,7 @@ class Flicker implements Drawable {
   late Position pos;
   late int size;
   late int hz;
-  late Color colorTemp;
+  late Color colorOriginal;
   late Color color = Colors.black;
   late Color secondaryColor;
   late FlickerTimer flickerTimer;
@@ -46,7 +46,7 @@ class Flicker implements Drawable {
   Flicker(this.pos, this.size, this.hz, {this.color = Colors.black}) {
     this.id = Flicker.idGen;
     Flicker.idGen++;
-    this.colorTemp = color;
+    this.colorOriginal = color;
     flickerTimer = FlickerTimer(id: this.id);
   }
 
@@ -70,10 +70,10 @@ class Flicker implements Drawable {
 
   void changeColor({required Color secondaryColor}) {
     if (this.isFlickering) {
-      if (color == colorTemp) {
+      if (color == colorOriginal) {
         color = secondaryColor;
       } else {
-        color = colorTemp;
+        color = colorOriginal;
       }
     }
   }
@@ -88,6 +88,7 @@ class Flicker implements Drawable {
     });
   }
 
+  @Deprecated("Does not work but the idea is worth developing, maybe later")
   void startWithCallback({
     required Color secondaryColor,
     required Function callback,
@@ -132,8 +133,8 @@ class Flicker implements Drawable {
       ..style = PaintingStyle.fill;
     canvas.drawCircle(c, this.size.toDouble(), paint);
 
-    TextSpan span =
-        TextSpan(text: "${this.hz}", style: TextStyle(color: Colors.blue));
+    TextSpan span = TextSpan(
+        text: "${this.hz}", style: TextStyle(color: Colors.blue, fontSize: 18));
     TextPainter tp = TextPainter(
         text: span,
         textAlign: TextAlign.center,

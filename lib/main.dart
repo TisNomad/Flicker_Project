@@ -61,7 +61,7 @@ class _MyCanvasState extends State<MyCanvas> {
 
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
-        toggleAnim();
+        toggleHzIncrease();
       },
       child: Container(
         color: backGroundColor,
@@ -77,6 +77,10 @@ class _MyCanvasState extends State<MyCanvas> {
   void dispose() {
     super.dispose();
     Wakelock.disable();
+  }
+
+  void toggleHzIncrease() {
+    context.read<GlobalData>().toggleHzIncrease();
   }
 
   //Toggles animation of the flicker objects

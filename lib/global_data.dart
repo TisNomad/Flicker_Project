@@ -7,9 +7,19 @@ import 'dart:async';
 
 class GlobalData extends ChangeNotifier {
   Color backGroundColor = Colors.black87;
+  Color buttonColor = Colors.black87;
   List<Flicker> flickerList = [];
   List<FlickerTimer> timerList = [];
   bool isIncreasing = false;
+
+  void changeButtonColor() {
+    if (buttonColor == Colors.black87) {
+      buttonColor = Colors.red;
+    } else {
+      buttonColor = Colors.black87;
+    }
+    notifyListeners();
+  }
 
   FlickerTimer? findTimer(Flicker f) {
     for (FlickerTimer t in timerList) {

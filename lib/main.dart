@@ -58,18 +58,55 @@ class _MyCanvasState extends State<MyCanvas> {
     final globalFlickerList = context.watch<GlobalData>().flickerList;
     Color backGroundColor =
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
+    Color buttonColor = context.watch<GlobalData>().buttonColor;
+    Key buttonKey = Key("value");
 
-    return GestureDetector(
-      onTapDown: (TapDownDetails details) {
-        toggleHzIncrease();
-      },
-      child: Container(
-        color: backGroundColor,
-        child: CustomPaint(
-          painter: MyPainter.acceptList(globalFlickerList),
-          child: Container(),
+    return Column(
+      children: [
+        Expanded(
+          flex: 10,
+          child: GestureDetector(
+            onTapDown: (TapDownDetails details) {
+              toggleHzIncrease();
+            },
+            child: Container(
+              color: backGroundColor,
+              child: CustomPaint(
+                painter: MyPainter.acceptList(globalFlickerList),
+                child: Container(),
+              ),
+            ),
+          ),
         ),
-      ),
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  key: buttonKey,
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: buttonColor,
+                  ),
+                  child: Text("Button"),
+                  onPressed: () {
+                    setState(() {
+                      context.read<GlobalData>().changeButtonColor();
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: OutlinedButton(
+                  child: Container(),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'flicker.dart';
 import 'dart:async';
-import 'my_math.dart' as MyMath;
+import 'my_math.dart' as my_math;
 
 class GlobalData extends ChangeNotifier {
   Color backGroundColor = Colors.black87;
@@ -15,6 +15,7 @@ class GlobalData extends ChangeNotifier {
   bool _isIncreasing = false;
   bool _isDecreasing = false;
   int _differenceValue = 1;
+  // ignore: prefer_final_fields
   int _differenceSpeed = 1;
 
   void _changeIncButtonColor() {
@@ -86,7 +87,7 @@ class GlobalData extends ChangeNotifier {
   }
 
   void startDecreasingHz() {
-    _differenceValue = MyMath.abs(_differenceValue) as int;
+    _differenceValue = my_math.abs(_differenceValue) as int;
     _differenceValue *= -1;
     //Made the change value negative
     _isIncreasing = false;
@@ -99,7 +100,7 @@ class GlobalData extends ChangeNotifier {
   }
 
   void startIncreasingHz() {
-    _differenceValue = MyMath.abs(_differenceValue) as int;
+    _differenceValue = my_math.abs(_differenceValue) as int;
     //Made the change value positive
     _isIncreasing = true;
     _isDecreasing = false;
@@ -147,6 +148,7 @@ class GlobalData extends ChangeNotifier {
     });
   }
 
+  // ignore: unused_element
   void _startFlicker({required Color secondaryColor}) {
     if (flickerList.isEmpty) {
       print("flickerList is empty");
@@ -176,6 +178,7 @@ class GlobalData extends ChangeNotifier {
 
   //start flicker of a Flicker object with its own method and callback
   @Deprecated("Does not work but the idea should linger for future development")
+  // ignore: unused_element
   void _startWithNotify(Flicker f, {required Color secondaryColor}) {
     f.startWithCallback(
       secondaryColor: secondaryColor,
@@ -185,6 +188,7 @@ class GlobalData extends ChangeNotifier {
     );
   }
 
+  // ignore: unused_element
   void _stopFlicker() {
     if (flickerList.isEmpty) return;
     for (Flicker f in flickerList) {
@@ -214,6 +218,7 @@ class GlobalData extends ChangeNotifier {
     }
   }
 
+  // ignore: unused_element
   void _changeColor({required Color secondaryColor}) {
     for (Flicker element in flickerList) {
       element.changeColor(secondaryColor: secondaryColor);

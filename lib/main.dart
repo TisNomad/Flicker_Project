@@ -1,13 +1,12 @@
 // ignore_for_file: avoid_print
 // A Comment
 
-import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'drawable.dart';
-import 'flicker.dart';
+//import 'flicker.dart';
 import 'package:wakelock/wakelock.dart';
 import 'global_data.dart';
 //import 'myMath.dart' as my_math;
@@ -60,8 +59,8 @@ class _MyCanvasState extends State<MyCanvas> {
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
     Color increaseButtonColor = context.watch<GlobalData>().increaseColor;
     Color decreaseButtonColor = context.watch<GlobalData>().decreaseColor;
-    Key increaseButton = Key("inc");
-    Key decreaseButton = Key("dec");
+    Key increaseButtonKey = const Key("inc");
+    Key decreaseButtonKey = const Key("dec");
 
     return Column(
       children: [
@@ -94,7 +93,7 @@ class _MyCanvasState extends State<MyCanvas> {
                       Icons.add,
                       color: Colors.blue,
                     ),
-                    key: increaseButton,
+                    key: increaseButtonKey,
                     style: OutlinedButton.styleFrom(
                       backgroundColor: increaseButtonColor,
                     ),
@@ -114,7 +113,7 @@ class _MyCanvasState extends State<MyCanvas> {
                       Icons.remove,
                       color: Colors.blue,
                     ),
-                    key: increaseButton,
+                    key: decreaseButtonKey,
                     style: OutlinedButton.styleFrom(
                       backgroundColor: decreaseButtonColor,
                     ),

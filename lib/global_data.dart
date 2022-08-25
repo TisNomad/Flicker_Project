@@ -15,6 +15,7 @@ class GlobalData extends ChangeNotifier {
   bool _isIncreasing = false;
   bool _isDecreasing = false;
   int _differenceValue = 1;
+  int _differenceSpeed = 1;
 
   void _changeIncButtonColor() {
     if (_isIncreasing) {
@@ -116,6 +117,8 @@ class GlobalData extends ChangeNotifier {
       t.timer?.cancel();
       t.timer = null;
     }
+    _changeDecButtonColor();
+    _changeIncButtonColor();
   }
 
   //Increase hz periodicaly every given timer period
@@ -123,7 +126,7 @@ class GlobalData extends ChangeNotifier {
     FlickerTimer t = _findTimer(f) as FlickerTimer;
     t.timer?.cancel();
     t.timer = null;
-    t.timer = Timer.periodic(Duration(seconds: 2), (timer) {
+    t.timer = Timer.periodic(Duration(seconds: _differenceSpeed), (timer) {
       f.hz = f.hz + _differenceValue;
       _setTimerOf(f, f.hz);
       if (f.hz < 2) {

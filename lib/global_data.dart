@@ -15,8 +15,8 @@ class GlobalData extends ChangeNotifier {
   bool _isIncreasing = false;
   bool _isDecreasing = false;
   int _differenceValue = 1;
-
   int _differenceSpeed = 1;
+  int _defaultHz = 5;
 
   void _changeIncButtonColor() {
     if (_isIncreasing) {
@@ -68,6 +68,14 @@ class GlobalData extends ChangeNotifier {
     for (Flicker element in flickerList) {
       _startFlickerOf(element);
     }
+  }
+
+  void refreshHz() {
+    _stopChangingHz();
+    for (Flicker f in flickerList) {
+      _setTimerOf(f, _defaultHz);
+    }
+    notifyListeners();
   }
 
   void toggleHzIncrease() {

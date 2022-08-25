@@ -73,6 +73,7 @@ class _MyCanvasState extends State<MyCanvas> {
     Color decreaseButtonColor = context.watch<GlobalData>().decreaseColor;
     Key increaseButtonKey = const Key("inc");
     Key decreaseButtonKey = const Key("dec");
+    Key resetButtonKey = const Key("res");
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -134,12 +135,36 @@ class _MyCanvasState extends State<MyCanvas> {
                     },
                   ),
                 ),
+
+                //RESET BUTTON -----------------------
+                Expanded(
+                  child: OutlinedButton.icon(
+                    icon: const Icon(
+                      Icons.refresh,
+                      color: Colors.blue,
+                    ),
+                    key: resetButtonKey,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: backGroundColor,
+                    ),
+                    label: const Text("Reset"),
+                    onPressed: () {
+                      setState(() {
+                        refreshHz();
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
           ),
         )
       ],
     );
+  }
+
+  void refreshHz() {
+    context.read<GlobalData>().refreshHz();
   }
 
   void toggleHzIncrease() {

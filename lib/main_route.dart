@@ -75,19 +75,15 @@ class _MyCanvasState extends State<MyCanvas> {
     Key decreaseButtonKey = const Key("dec");
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          flex: 10,
-          child: GestureDetector(
-            onTapDown: (TapDownDetails details) {
-              toggleHzIncrease();
-            },
-            child: Container(
-              color: backGroundColor,
-              child: CustomPaint(
-                painter: MyPainter.acceptList(globalFlickerList),
-                child: Container(),
-              ),
+          flex: 12,
+          child: Container(
+            color: backGroundColor,
+            child: CustomPaint(
+              painter: MyPainter.acceptList(globalFlickerList),
+              child: Container(),
             ),
           ),
         ),
@@ -97,6 +93,7 @@ class _MyCanvasState extends State<MyCanvas> {
             color: backGroundColor,
             child: Row(
               mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // INCREASE BUTTON ----------
                 Expanded(

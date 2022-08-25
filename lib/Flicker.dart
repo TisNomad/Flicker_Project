@@ -134,7 +134,6 @@ class Flicker implements Drawable {
 
   @override
   void drawPaint(Canvas canvas, size) {
-    Size cSize = size as Size;
     var c = Offset(this.pos.x, this.pos.y);
     var paint = Paint()
       ..color = this.color

@@ -51,15 +51,17 @@ class _MyCanvasState extends State<MyCanvas> {
   bool isAnimating = false;
   var globalFlickerList = [];
   Timer? timer;
-
+  @override
   @override
   Widget build(BuildContext context) {
     //print("MyCanvas build method called.");
     final globalFlickerList = context.watch<GlobalData>().flickerList;
     Color backGroundColor =
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
-    Color buttonColor = context.watch<GlobalData>().buttonColor;
-    Key buttonKey = Key("value");
+    Color increaseButtonColor = context.watch<GlobalData>().increaseColor;
+    Color decreaseButtonColor = context.watch<GlobalData>().decreaseColor;
+    Key increaseButton = Key("inc");
+    Key decreaseButton = Key("dec");
 
     return Column(
       children: [
@@ -80,44 +82,64 @@ class _MyCanvasState extends State<MyCanvas> {
         ),
         Expanded(
           flex: 1,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  key: buttonKey,
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: buttonColor,
+          child: Container(
+            color: backGroundColor,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                // INCREASE BUTTON ----------
+                Expanded(
+                  child: OutlinedButton.icon(
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.blue,
+                    ),
+                    key: increaseButton,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: increaseButtonColor,
+                    ),
+                    label: Text("Increase"),
+                    onPressed: () {
+                      setState(() {
+                        toggleHzIncrease();
+                      });
+                    },
                   ),
-                  child: Text("Button"),
-                  onPressed: () {
-                    setState(() {
-                      context.read<GlobalData>().changeButtonColor();
-                    });
-                  },
                 ),
-              ),
-              Expanded(
-                child: OutlinedButton(
-                  child: Container(),
-                  onPressed: () {},
+
+                // DECREASE BUTTON -------------
+                Expanded(
+                  child: OutlinedButton.icon(
+                    icon: const Icon(
+                      Icons.remove,
+                      color: Colors.blue,
+                    ),
+                    key: increaseButton,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: decreaseButtonColor,
+                    ),
+                    label: Text("Decrease"),
+                    onPressed: () {
+                      setState(() {
+                        toggleHzDecrease();
+                      });
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         )
       ],
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    Wakelock.disable();
-  }
-
   void toggleHzIncrease() {
     context.read<GlobalData>().toggleHzIncrease();
+  }
+
+  void toggleHzDecrease() {
+    context.read<GlobalData>().toggleHzDecrease();
   }
 
   //Toggles animation of the flicker objects
@@ -131,6 +153,12 @@ class _MyCanvasState extends State<MyCanvas> {
   void initState() {
     super.initState();
     print("initState() called from MyCanvas");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Wakelock.disable();
   }
 }
 

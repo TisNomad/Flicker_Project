@@ -4,37 +4,51 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'flicker.dart';
 import 'dart:async';
+import 'my_math.dart' as MyMath;
 
 class GlobalData extends ChangeNotifier {
   Color backGroundColor = Colors.black87;
-  Color buttonColor = Colors.black87;
+  Color increaseColor = Colors.black87;
+  Color decreaseColor = Colors.black87;
   List<Flicker> flickerList = [];
-  List<FlickerTimer> timerList = [];
-  bool isIncreasing = false;
+  List<FlickerTimer> _timerList = [];
+  bool _isIncreasing = false;
+  bool _isDecreasing = false;
+  int _differenceValue = 1;
 
-  void changeButtonColor() {
-    if (buttonColor == Colors.black87) {
-      buttonColor = Colors.red;
+  void _changeIncButtonColor() {
+    if (_isIncreasing) {
+      increaseColor = Colors.grey[800] as Color;
     } else {
-      buttonColor = Colors.black87;
+      increaseColor = Colors.black87;
     }
     notifyListeners();
   }
 
-  FlickerTimer? findTimer(Flicker f) {
-    for (FlickerTimer t in timerList) {
+  void _changeDecButtonColor() {
+    if (_isDecreasing) {
+      decreaseColor = Colors.grey[800] as Color;
+    } else {
+      decreaseColor = Colors.black87;
+    }
+    notifyListeners();
+  }
+
+  FlickerTimer? _findTimer(Flicker f) {
+    for (FlickerTimer t in _timerList) {
       if (t.id == f.id) return t;
     }
+    return null;
   }
 
   //When provider is built, initialize data. Called immediately when app starts.
   GlobalData() {
-    initData();
+    _initData();
   }
 
   @Summary("Initializes the data to be used in application.\n"
       "Used once when first program starts.")
-  void initData() {
+  void _initData() {
     // initialize with 5 items in list.
     print("İnitData() called from ChangeNotifier GlobalData.");
     for (int i = 0; i < 1; i++) {
@@ -44,51 +58,83 @@ class GlobalData extends ChangeNotifier {
     // For each flicker in flickerList,
     // create new FlickerTimer for increasing hz periodicaly
     for (Flicker f in flickerList) {
-      timerList.add(FlickerTimer(id: f.id));
+      _timerList.add(FlickerTimer(id: f.id));
     }
 
     print(
         "ChangeNotifier GlobalData flicker list length: ${flickerList.length}");
     for (Flicker element in flickerList) {
-      startFlickerOf(element);
+      _startFlickerOf(element);
     }
   }
 
   void toggleHzIncrease() {
-    if (isIncreasing) {
-      stopIncreasingHz();
+    if (_isIncreasing) {
+      _stopChangingHz();
     } else {
       startIncreasingHz();
     }
   }
 
-  void startIncreasingHz() {
-    isIncreasing = true;
-    for (Flicker f in flickerList) {
-      increaseFlickerHz(f);
+  void toggleHzDecrease() {
+    if (_isDecreasing) {
+      _stopChangingHz();
+    } else {
+      startDecreasingHz();
     }
   }
 
-  void stopIncreasingHz() {
-    isIncreasing = false;
-    for (FlickerTimer t in timerList) {
+  void startDecreasingHz() {
+    _differenceValue = MyMath.abs(_differenceValue) as int;
+    _differenceValue *= -1;
+    //Made the change value negative
+    _isIncreasing = false;
+    _isDecreasing = true;
+    _changeDecButtonColor();
+    _changeIncButtonColor();
+    for (Flicker f in flickerList) {
+      _changeFlickerHz(f);
+    }
+  }
+
+  void startIncreasingHz() {
+    _differenceValue = MyMath.abs(_differenceValue) as int;
+    //Made the change value positive
+    _isIncreasing = true;
+    _isDecreasing = false;
+    _changeDecButtonColor();
+    _changeIncButtonColor();
+    for (Flicker f in flickerList) {
+      _changeFlickerHz(f);
+    }
+  }
+
+  void _stopChangingHz() {
+    _isIncreasing = false;
+    _isDecreasing = false;
+    for (FlickerTimer t in _timerList) {
       t.timer?.cancel();
       t.timer = null;
     }
   }
 
   //Increase hz periodicaly every given timer period
-  void increaseFlickerHz(Flicker f) {
-    FlickerTimer t = findTimer(f) as FlickerTimer;
+  void _changeFlickerHz(Flicker f) {
+    FlickerTimer t = _findTimer(f) as FlickerTimer;
     t.timer?.cancel();
     t.timer = null;
     t.timer = Timer.periodic(Duration(seconds: 2), (timer) {
-      f.hz = f.hz + 1;
-      setTimerOf(f, f.hz);
+      f.hz = f.hz + _differenceValue;
+      _setTimerOf(f, f.hz);
+      if (f.hz < 2) {
+        t.timer!.cancel();
+        t.timer = null;
+      }
     });
   }
 
-  void setTimerOf(Flicker f, int newHz) {
+  //Set the periodic timer for Flicker f. Meant to be used internally
+  void _setTimerOf(Flicker f, int newHz) {
     f.flickerTimer.timer?.cancel();
     f.flickerTimer.timer = null;
     f.flickerTimer.timer =
@@ -98,7 +144,7 @@ class GlobalData extends ChangeNotifier {
     });
   }
 
-  void startFlicker({required Color secondaryColor}) {
+  void _startFlicker({required Color secondaryColor}) {
     if (flickerList.isEmpty) {
       print("flickerList is empty");
       return;
@@ -107,13 +153,13 @@ class GlobalData extends ChangeNotifier {
       if (f.isFlickering) {
         print("Flicker id:${f.id} is already flickering.");
       } else {
-        startFlickerOf(f);
+        _startFlickerOf(f);
       }
     }
   }
 
   // Used to start flickering of a Flicker object ---------------------
-  void startFlickerOf(Flicker f) {
+  void _startFlickerOf(Flicker f) {
     f.isFlickering = true;
 
     f.flickerTimer.timer =
@@ -127,7 +173,7 @@ class GlobalData extends ChangeNotifier {
 
   //start flicker of a Flicker object with its own method and callback
   @Deprecated("Does not work but the idea should linger for future development")
-  void startWithNotify(Flicker f, {required Color secondaryColor}) {
+  void _startWithNotify(Flicker f, {required Color secondaryColor}) {
     f.startWithCallback(
       secondaryColor: secondaryColor,
       callback: () {
@@ -136,15 +182,15 @@ class GlobalData extends ChangeNotifier {
     );
   }
 
-  void stopFlicker() {
+  void _stopFlicker() {
     if (flickerList.isEmpty) return;
     for (Flicker f in flickerList) {
-      stopFlickerOf(f);
+      _stopFlickerOf(f);
     }
   }
 
   // Used to stop flickering of a Flicker object -----------------------
-  void stopFlickerOf(Flicker f) {
+  void _stopFlickerOf(Flicker f) {
     f.isFlickering = false;
     f.flickerTimer.timer?.cancel();
     f.flickerTimer.timer = null;
@@ -158,14 +204,14 @@ class GlobalData extends ChangeNotifier {
     if (flickerList.isEmpty) return;
     for (Flicker f in flickerList) {
       if (f.isFlickering) {
-        stopFlickerOf(f);
+        _stopFlickerOf(f);
       } else {
-        startFlickerOf(f);
+        _startFlickerOf(f);
       }
     }
   }
 
-  void changeColor({required Color secondaryColor}) {
+  void _changeColor({required Color secondaryColor}) {
     for (Flicker element in flickerList) {
       element.changeColor(secondaryColor: secondaryColor);
       notifyListeners();

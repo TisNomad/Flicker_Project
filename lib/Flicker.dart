@@ -13,6 +13,14 @@ class FlickerTimer {
     timer = null;
   }
 
+  bool compareFlicker(Flicker f) {
+    if (this.id == f.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   bool checkTimerId(int id) {
     if (this.id == id) {
       return true;

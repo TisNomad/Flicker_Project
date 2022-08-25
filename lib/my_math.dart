@@ -5,3 +5,10 @@ num pow(num x, int exponent) {
   }
   return result;
 }
+
+num abs(num x) {
+  if (x < 0)
+    return x * (-1);
+  else
+    return x;
+}

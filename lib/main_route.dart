@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -19,7 +21,7 @@ class _MainRouteState extends State<MainRoute> {
   void handleDrowDownMenu(String choice) {
     if (choice == "Settings") {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings()));
+          context, MaterialPageRoute(builder: (context) => const Settings()));
     }
   }
 
@@ -44,13 +46,13 @@ class _MainRouteState extends State<MainRoute> {
         centerTitle: true,
         title: const Text("Flicker Project"),
       ),
-      body: MyCanvas(),
+      body: const MyCanvas(),
     );
   }
 }
 
 class MyCanvas extends StatefulWidget {
-  MyCanvas({Key? key}) : super(key: key);
+  const MyCanvas({Key? key}) : super(key: key);
 
   @override
   State<MyCanvas> createState() => _MyCanvasState();
@@ -60,7 +62,7 @@ class _MyCanvasState extends State<MyCanvas> {
   bool isAnimating = false;
   var globalFlickerList = [];
   Timer? timer;
-  @override
+
   @override
   Widget build(BuildContext context) {
     //print("MyCanvas build method called.");
@@ -107,7 +109,7 @@ class _MyCanvasState extends State<MyCanvas> {
                     style: OutlinedButton.styleFrom(
                       backgroundColor: increaseButtonColor,
                     ),
-                    label: Text("Increase"),
+                    label: const Text("Increase"),
                     onPressed: () {
                       setState(() {
                         toggleHzIncrease();
@@ -127,7 +129,7 @@ class _MyCanvasState extends State<MyCanvas> {
                     style: OutlinedButton.styleFrom(
                       backgroundColor: decreaseButtonColor,
                     ),
-                    label: Text("Decrease"),
+                    label: const Text("Decrease"),
                     onPressed: () {
                       setState(() {
                         toggleHzDecrease();

@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_this, avoid_print
+// ignore_for_file: unnecessary_this, avoid_print, prefer_final_fields
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class GlobalData extends ChangeNotifier {
   bool _isIncreasing = false;
   bool _isDecreasing = false;
   int _differenceValue = 1;
-  // ignore: prefer_final_fields
+
   int _differenceSpeed = 1;
 
   void _changeIncButtonColor() {

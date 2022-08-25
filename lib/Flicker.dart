@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_this, avoid_print
+// ignore_for_file: unnecessary_this, avoid_print, file_names
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -141,7 +141,8 @@ class Flicker implements Drawable {
     canvas.drawCircle(c, this.size.toDouble(), paint);
 
     TextSpan span = TextSpan(
-        text: "${this.hz}", style: TextStyle(color: Colors.blue, fontSize: 18));
+        text: "${this.hz}",
+        style: const TextStyle(color: Colors.blue, fontSize: 18));
     TextPainter tp = TextPainter(
         text: span,
         textAlign: TextAlign.center,

@@ -17,7 +17,9 @@ class GlobalData extends ChangeNotifier {
   bool _isDecreasing = false;
   int _differenceValue = 1;
   int _differenceSpeed = 1;
-  int _defaultHz = 5;
+  int _defaultHz = 10;
+  List<String> pageList = ["Settings"];
+  var settingsValueList = <dynamic>[];
 
   void _changeIncButtonColor() {
     if (_isIncreasing) {
@@ -55,7 +57,8 @@ class GlobalData extends ChangeNotifier {
     // initialize with 5 items in list.
     print("İnitData() called from ChangeNotifier GlobalData.");
     for (int i = 0; i < 1; i++) {
-      flickerList.add(Flicker(Position(200, 250), 30, 5, color: Colors.white));
+      flickerList.add(
+          Flicker(Position(200, 250), 30, _defaultHz, color: Colors.white));
       print(flickerList.length);
     }
     // For each flicker in flickerList,
@@ -69,12 +72,15 @@ class GlobalData extends ChangeNotifier {
     for (Flicker element in flickerList) {
       _startFlickerOf(element);
     }
+
+    settingsValueList.addAll(<dynamic>[true, false]);
   }
 
   void refreshHz() {
     _stopChangingHz();
     for (Flicker f in flickerList) {
       _setTimerOf(f, _defaultHz);
+      f.hz = _defaultHz;
     }
     notifyListeners();
   }
@@ -91,6 +97,9 @@ class GlobalData extends ChangeNotifier {
     if (_isDecreasing) {
       _stopChangingHz();
     } else {
+      for (Flicker f in flickerList) {
+        if (f.hz < 2) return;
+      }
       startDecreasingHz();
     }
   }

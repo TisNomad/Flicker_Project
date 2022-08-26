@@ -19,6 +19,7 @@ class MainRoute extends StatefulWidget {
 }
 
 class _MainRouteState extends State<MainRoute> {
+  //Page Router
   void handleDrowDownMenu(String choice) {
     if (choice == "Settings") {
       Navigator.push(
@@ -35,7 +36,7 @@ class _MainRouteState extends State<MainRoute> {
           PopupMenuButton(
             onSelected: handleDrowDownMenu,
             itemBuilder: (BuildContext context) {
-              return {"Settings"}.map((String choice) {
+              return context.read<GlobalData>().pageList.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(choice),

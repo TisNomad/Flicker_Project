@@ -135,7 +135,10 @@ class Flicker implements Drawable {
 
   @override
   void drawPaint(Canvas canvas, size) {
+    const double selectedFontSize = 20;
     var c = Offset(this.pos.x, this.pos.y);
+    var textSpanOffset = Offset(
+        this.pos.x - selectedFontSize / 2, this.pos.y - selectedFontSize / 2);
     var paint = Paint()
       ..color = this.color
       ..style = PaintingStyle.fill;
@@ -143,14 +146,17 @@ class Flicker implements Drawable {
 
     TextSpan span = TextSpan(
         text: "${this.hz}",
-        style: const TextStyle(color: Colors.blue, fontSize: 18));
+        style: const TextStyle(
+            color: Colors.blue,
+            fontSize: selectedFontSize,
+            fontWeight: FontWeight.bold));
     TextPainter tp = TextPainter(
         text: span,
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr);
     tp.layout();
-    tp.paint(canvas, c);
+    tp.paint(canvas, textSpanOffset);
   }
 
-  get instance => this;
+  Flicker get instance => this;
 }

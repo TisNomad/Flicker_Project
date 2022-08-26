@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print, prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hello_world/global_data.dart';
 import 'package:provider/provider.dart';
 //import 'package:hello_world/global_data.dart';
@@ -12,6 +15,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  final textController = TextEditingController();
+  late int defaultValueTemp = 11;
   @override
   Widget build(BuildContext context) {
     var settingsValueList =
@@ -29,24 +34,60 @@ class _SettingsState extends State<Settings> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          CheckboxListTile(
-            title: const Text("Setting 1"),
-            value: settingsValueList[0] as bool,
-            onChanged: (newValue) {
-              setState(() {
-                settingsValueList[0] = newValue;
-              });
-            },
+          ListTile(
+            trailing: Container(
+              width: 150,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      child: TextField(
+                        controller: textController,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                defaultValueTemp =
+                                    int.tryParse(newValue.text) as int;
+                              });
+                              print(defaultValueTemp);
+                            }
+
+                            return newValue;
+                          }),
+                        ],
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: TextButton(
+                      onPressed: () {
+                        if (defaultValueTemp > 2) {
+                          setState(() {
+                            context
+                                .read<GlobalData>()
+                                .setDefaultHz(defaultValueTemp);
+                          });
+                        } else {
+                          print("Please submit a value greater than 2");
+                        }
+                      },
+                      child: Text("Submit", textAlign: TextAlign.center),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            title: Text(
+                "Default value: ${context.read<GlobalData>().getDefaultHz()}"),
           ),
-          const Divider(thickness: 1),
-          CheckboxListTile(
-            title: const Text("Setting 2"),
-            value: settingsValueList[1] as bool,
-            onChanged: (newValue) {
-              setState(() {
-                settingsValueList[1] = newValue;
-              });
-            },
+          const Divider(),
+          const ListTile(
+            title: Text("Setting 2"),
           ),
         ],
       ),

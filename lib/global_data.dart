@@ -16,7 +16,7 @@ class GlobalData extends ChangeNotifier {
   bool _isIncreasing = false;
   bool _isDecreasing = false;
   int _differenceValue = 1;
-  int _differenceSpeed = 1;
+  int _differenceSpeed = 1000;
   int _defaultHz = 10;
   List<String> pageList = ["Settings"];
   var settingsValueList = <dynamic>[];
@@ -76,6 +76,14 @@ class GlobalData extends ChangeNotifier {
     settingsValueList.addAll(<dynamic>[true, false]);
   }
 
+  void setDefaultHz(int newValue) {
+    this._defaultHz = newValue;
+  }
+
+  int getDefaultHz() {
+    return _defaultHz;
+  }
+
   void refreshHz() {
     _stopChangingHz();
     for (Flicker f in flickerList) {
@@ -119,6 +127,7 @@ class GlobalData extends ChangeNotifier {
 
   void startIncreasingHz() {
     _differenceValue = my_math.abs(_differenceValue) as int;
+
     //Made the change value positive
     _isIncreasing = true;
     _isDecreasing = false;
@@ -145,7 +154,7 @@ class GlobalData extends ChangeNotifier {
     FlickerTimer t = _findTimer(f) as FlickerTimer;
     t.timer?.cancel();
     t.timer = null;
-    t.timer = Timer.periodic(Duration(seconds: _differenceSpeed), (timer) {
+    t.timer = Timer.periodic(Duration(milliseconds: _differenceSpeed), (timer) {
       f.hz = f.hz + _differenceValue;
       _setTimerOf(f, f.hz);
       if (f.hz < 2) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main_route.dart';
 
+//Base Structure of the whole app
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

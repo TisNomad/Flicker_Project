@@ -10,6 +10,7 @@ import 'global_data.dart';
 import 'my_painter.dart';
 import 'settings_route.dart';
 
+//App starts at this page
 class MainRoute extends StatefulWidget {
   const MainRoute({Key? key}) : super(key: key);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Can be accessed from main_route
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 

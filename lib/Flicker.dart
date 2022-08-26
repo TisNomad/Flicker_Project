@@ -50,6 +50,7 @@ class Flicker implements Drawable {
   late Color secondaryColor;
   late FlickerTimer flickerTimer;
   bool isFlickering = false;
+  bool drawHzData = true;
 
   Flicker(this.pos, this.size, this.hz, {this.color = Colors.black}) {
     this.id = Flicker.idGen;

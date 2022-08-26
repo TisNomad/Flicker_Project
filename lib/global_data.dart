@@ -6,6 +6,7 @@ import 'flicker.dart';
 import 'dart:async';
 import 'my_math.dart' as my_math;
 
+//Main provider of data for the app
 class GlobalData extends ChangeNotifier {
   Color backGroundColor = Colors.black87;
   Color increaseColor = Colors.black87;

@@ -78,10 +78,20 @@ class GlobalData extends ChangeNotifier {
 
   void setDefaultHz(int newValue) {
     this._defaultHz = newValue;
+    notifyListeners();
   }
 
   int getDefaultHz() {
     return _defaultHz;
+  }
+
+  void setDifferenceSpeed(int newValue) {
+    this._differenceSpeed = newValue;
+    notifyListeners();
+  }
+
+  int getDifferenceSpeed() {
+    return this._differenceSpeed;
   }
 
   void refreshHz() {

@@ -89,6 +89,8 @@ class _SettingsState extends State<Settings> {
                 "Default value: ${context.watch<GlobalData>().getDefaultHz()}"),
           ),
           const Divider(),
+
+          //TODO: Complete listTile design
           ListTile(
             title: Text("Hz change speed: ${hzDiffSpeed}"),
             trailing: Container(
@@ -100,6 +102,9 @@ class _SettingsState extends State<Settings> {
                     child: SizedBox(
                       child: TextField(
                         keyboardType: TextInputType.number,
+
+                        //Formatter checks input value and if applicable assigns
+                        //to a local variable everytime textInput changes.
                         inputFormatters: <TextInputFormatter>[
                           TextInputFormatter.withFunction((oldValue, newValue) {
                             if (newValue.text != "" && newValue.text != null) {
@@ -113,20 +118,16 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                   ),
+
+                  //TODO: Implement button functionality
+                  //"Submit" button assigns the local variable to the associated
+                  //variable in GlobalData class where all the globally available
+                  //resides.
+                  //Implemented example code above.
                   Expanded(
                     flex: 2,
                     child: TextButton(
-                      onPressed: () {
-                        if (defaultValueTemp > 2) {
-                          setState(() {
-                            context
-                                .read<GlobalData>()
-                                .setDefaultHz(defaultValueTemp);
-                          });
-                        } else {
-                          print("Please submit a value greater than 2");
-                        }
-                      },
+                      onPressed: () {},
                       child: Text("Submit", textAlign: TextAlign.center),
                     ),
                   )

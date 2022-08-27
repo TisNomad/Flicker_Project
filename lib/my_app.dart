@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'main_route.dart';
 
 //Base Structure of the whole app
+//Meant to be the root for all the pages
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

@@ -34,9 +34,12 @@ class _MainRouteState extends State<MainRoute> {
       appBar: AppBar(
         actions: <Widget>[
           PopupMenuButton(
-            onSelected: handleDrowDownMenu,
+            onSelected: handleDrowDownMenu, //
             itemBuilder: (BuildContext context) {
-              return context.read<GlobalData>().pageList.map((String choice) {
+              return context
+                  .read<GlobalData>()
+                  .dorpdownMenuList
+                  .map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(choice),
@@ -69,8 +72,10 @@ class _MyCanvasState extends State<MyCanvas> {
   Widget build(BuildContext context) {
     //print("MyCanvas build method called.");
     final globalFlickerList = context.watch<GlobalData>().flickerList;
+
     Color backGroundColor =
         Provider.of<GlobalData>(context, listen: false).backGroundColor;
+
     Color increaseButtonColor = context.watch<GlobalData>().increaseColor;
     Color decreaseButtonColor = context.watch<GlobalData>().decreaseColor;
     Key increaseButtonKey = const Key("inc");
@@ -80,6 +85,7 @@ class _MyCanvasState extends State<MyCanvas> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        //Flicker happens here
         Expanded(
           flex: 12,
           child: Container(
@@ -90,6 +96,8 @@ class _MyCanvasState extends State<MyCanvas> {
             ),
           ),
         ),
+
+        //Bottom screen buttons, controlling flicker behavior
         Expanded(
           flex: 1,
           child: Container(
@@ -139,6 +147,9 @@ class _MyCanvasState extends State<MyCanvas> {
                 ),
 
                 //RESET BUTTON -----------------------
+                //When pressed, stops the flicker hz change and resets to a
+                //default value assigned from GlobalData class.
+                //Default value can be changed from setting menu.
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(
@@ -166,7 +177,7 @@ class _MyCanvasState extends State<MyCanvas> {
   }
 
   void refreshHz() {
-    context.read<GlobalData>().refreshHz();
+    context.read<GlobalData>().resetHz();
   }
 
   void toggleHzIncrease() {
@@ -188,6 +199,7 @@ class _MyCanvasState extends State<MyCanvas> {
   void initState() {
     super.initState();
     print("initState() called from MyCanvas");
+    Wakelock.enable();
   }
 
   @override

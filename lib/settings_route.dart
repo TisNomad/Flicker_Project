@@ -50,7 +50,7 @@ class _SettingsState extends State<Settings> {
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           TextInputFormatter.withFunction((oldValue, newValue) {
-                            if (newValue != null) {
+                            if (newValue.text != "") {
                               setState(() {
                                 defaultValueTemp =
                                     int.tryParse(newValue.text) as int;
